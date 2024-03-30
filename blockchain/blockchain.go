@@ -34,7 +34,7 @@ func DBexists() bool {
 }
 
 func ContinueBlockChain(address string) *BlockChain {
-	if DBexists() == false {
+	if !DBexists() {
 		fmt.Println("No existing blockchain found, create one!")
 		runtime.Goexit()
 	}
@@ -177,7 +177,7 @@ func (chain *BlockChain) FindUnspentTransactions(address string) []Transaction {
 					unspentTxs = append(unspentTxs, *tx)
 				}
 			}
-			if tx.IsCoinbase() == false {
+			if !tx.IsCoinbase() {
 				for _, in := range tx.Inputs {
 					if in.CanUnlock(address) {
 						inTxID := hex.EncodeToString(in.ID)
