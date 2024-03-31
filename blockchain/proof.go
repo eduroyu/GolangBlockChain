@@ -21,7 +21,7 @@ import (
 // Requirements:
 // The First few bytes must contain 0s
 
-const Difficulty = 18
+const Difficulty = 12
 
 type ProofOfWork struct {
 	Block  *Block
@@ -57,7 +57,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 
 	nonce := 0
 
-	for nonce < math.MaxInt64 {
+	for nonce < math.MaxInt {
 		data := pow.InitData(nonce)
 		hash = sha256.Sum256(data)
 

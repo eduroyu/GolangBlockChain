@@ -26,9 +26,8 @@ func (b *Block) HashTransactions() []byte {
 	return txHash[:]
 }
 
-// Create a Block
 func CreateBlock(txs []*Transaction, prevHash []byte) *Block {
-	block := &Block{[]byte{}, txs, prevHash, 0} //Creation of Block without Hash
+	block := &Block{[]byte{}, txs, prevHash, 0}
 	pow := NewProof(block)
 	nonce, hash := pow.Run()
 
@@ -38,12 +37,10 @@ func CreateBlock(txs []*Transaction, prevHash []byte) *Block {
 	return block
 }
 
-// Create the first Block of the BlockChain
 func Genesis(coinbase *Transaction) *Block {
 	return CreateBlock([]*Transaction{coinbase}, []byte{})
 }
 
-// Serialize the blocks to be interpreted by BadgerDB
 func (b *Block) Serialize() []byte {
 	var res bytes.Buffer
 	encoder := gob.NewEncoder(&res)
@@ -57,6 +54,7 @@ func (b *Block) Serialize() []byte {
 
 func Deserialize(data []byte) *Block {
 	var block Block
+
 	decoder := gob.NewDecoder(bytes.NewReader(data))
 
 	err := decoder.Decode(&block)
